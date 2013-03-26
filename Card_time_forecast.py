@@ -15,6 +15,12 @@ from anki.utils import fmtTimeSpan
 
 
 def aleksejCardStatsReportForForecast(self):
+
+        # Make Ease number green for easy cards.  Low ease numbers are marked
+        # red, so you may want to disable this if it is difficult for you to
+        # distinguish red and green.
+        opt_use_green_for_ease = True
+
         c = self.card
         fmt = lambda x, **kwargs: fmtTimeSpan(x, short=True, **kwargs)
         self.txt = '<table width="100%">'
@@ -70,7 +76,12 @@ def aleksejCardStatsReportForForecast(self):
                         medium_ease += 1
                     ease_red_perc = 100 * (medium_ease - c.factor) / (medium_ease - 1300)
                     ease_green_perc = 0
-                elif c.factor > medium_ease:
+                # If the card is easy, make the number green.
+                # XXX: This is not very useful, and may be bad for
+                # accessibility (color blindness).  To disable it, change
+                # opt_use_green_for_ease above to False.
+                elif c.factor > medium_ease and opt_use_green_for_ease:
+                    # Precision is probably not important here.
                     highest_ease_possible = 3560
                     if medium_ease == highest_ease_possible:
                         medium_ease -= 1
