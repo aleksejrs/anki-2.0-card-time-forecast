@@ -199,10 +199,10 @@ def aleksejCardStatsReportForForecast(self):
                     forecast_captions, forecast_days = list(forecast_captions), list(forecast_days)
                     forecast_days.append(365 * 100)
 
-                    # cards which need less than 8 seconds to learn are not
-                    # worth deleting
                     for i in range(len(forecast_list)):
+                        # Show no more than one forecast of 8 seconds or less.
                         nextIsNotVerySmall = repstime_this(forecast_days[i + 1]) > 8
+                        # Skip the forecast if the next one is the same.
                         nextIsBigger = repstime_this(forecast_days[i]) < repstime_this(forecast_days[i + 1])
 
                         if nextIsNotVerySmall and nextIsBigger:
