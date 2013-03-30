@@ -322,7 +322,7 @@ def repstime_s(days, factor, time_avg, time_median, ivl, cardStatsObject):
 
 
 def repsForIvlFactorAndMaximum(ivl, factor, days):
-    # I guess this is currently just a proxy because I want to adapt it
+    # I guess this is currently just a proxy because I wanted to adapt it
     # for cards due in the future.  Then it will substract the "due in"
     # time from the "days".
     return reps_for_total_ivl(ivl=ivl, factor=factor, max_total_ivl=days)
