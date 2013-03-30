@@ -14,6 +14,28 @@ from anki.stats import CardStats
 from anki.utils import fmtTimeSpan
 
 
+def percFromBaseToExtreme(value, base, extreme):
+    """Shows, in %, where value is on the way from base to extreme.
+
+    Used for coloring numbers.
+    """
+    # Examples:
+    # base = 2500, extreme = 1300; 2500 - 1300 = 1200.
+    # value 1300: (2500 - 1300) / 1200 = 100%
+    # value 1900: (2500 - 1900 = 600) / 1200 = 50%
+    # value 2500: (2500 - 2500) / whatever = 0%
+    # base = 2500, extreme = 3560, 2500 - 3560 = -1060
+    # value 2600: (2500 - 2600 = -100) / 1060 = 9%
+    if base == extreme:
+        perc = 100
+    else:
+        perc = 100 * (base - value) / (base - extreme)
+        if perc > 100:
+            perc = 100
+
+    return perc
+
+
 def aleksejCardStatsReportForForecast(self):
 
         # Make Ease number green for easy cards.  Low ease numbers are marked
@@ -70,17 +92,11 @@ def aleksejCardStatsReportForForecast(self):
                 else:
                     medium_ease = 2500
 
-                # Redness calculation:
-                # 2500 - 1300 = 1200 = 100%
-                # 2500 - 2500 = 0 = 0%
-                # 2500 - 2600 = -100 = 0%
                 if c.factor < medium_ease:
                     lowest_ease_possible = 1300
                     ease_green_perc = 0
-                    if medium_ease == lowest_ease_possible:
-                        ease_red_perc = 100
-                    else:
-                        ease_red_perc = 100 * (medium_ease - c.factor) / (medium_ease - lowest_ease_possible)
+                    ease_red_perc = percFromBaseToExtreme(
+                                c.factor, medium_ease, lowest_ease_possible)
                 # If the card is easy, make the number green.
                 # XXX: This is not very useful, and may be bad for
                 # accessibility (color blindness).  To disable it, change
@@ -89,15 +105,10 @@ def aleksejCardStatsReportForForecast(self):
                     # Precision is probably not important here.
                     highest_ease_possible = 3560
                     ease_red_perc = 0
-                    if medium_ease == highest_ease_possible:
-                        ease_green_perc = 100
-                    else:
-                        ease_green_perc = 100 * (c.factor - medium_ease) / (highest_ease_possible - medium_ease)
+                    ease_green_perc = percFromBaseToExtreme(
+                                c.factor, medium_ease, highest_ease_possible)
                 else:
                     ease_green_perc = ease_red_perc = 0
-
-                if ease_green_perc > 100:
-                    ease_green_perc = 100
 
                 ease_str = '<span style="color: rgb({0}%, {1}%, 0%)">{2}</span>'.format(
                         ease_red_perc, ease_green_perc, ease_str)
