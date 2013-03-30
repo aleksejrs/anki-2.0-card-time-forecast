@@ -196,7 +196,7 @@ def aleksejCardStatsReportForForecast(self):
                     addRLine(self, caption, time_str)
 
 
-                if abs(1 - time_avg / time_median) < 0.04:
+                if time_median == 0 or abs(1 - time_avg / time_median) < 0.04:
                     avgAndMedTimeLineText = self.time((time_median + time_avg) / 2)
                 else:
                     avgAndMedTimeLineText = self.time(time_avg) + self.time(time_median)
