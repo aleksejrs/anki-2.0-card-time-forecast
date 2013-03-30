@@ -6,7 +6,7 @@
 
 import time
 
-from numpy import median
+from numpy import mean, median
 
 from aqt.qt import *
 
@@ -279,7 +279,8 @@ def total_ivls(ivl, ease):
 
 
 def time_avg_and_median(all_times):
-    """Takes duration of every review and returns average and median.
+    """Takes duration of almost every review and returns average and median.
+    Skips the oldest reviews if there is enough.
     
     Durations are in seconds.
     """
@@ -290,7 +291,7 @@ def time_avg_and_median(all_times):
         oldest_count = len(all_times) // 5
         timeList = all_times[oldest_count - 1:]
 
-    time_avg = sum(timeList) / float(len(timeList))
+    time_avg = mean(timeList)
     time_median = median(timeList)
 
     return time_avg, time_median
