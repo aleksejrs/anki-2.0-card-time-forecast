@@ -147,47 +147,6 @@ def aleksejCardStatsReportForForecast(self):
                     years = days / 365.0
 
 
-
-                    if 'Anki' in deck_name:
-                        # Anki may be very different in 10 years.
-                        if years >= 10:
-                            return
-
-                    if 'Python' in deck_name:
-                        if years >= 15:
-                            return
-
-                    if 'People' in deck_name:
-                        if years > 15:
-                            return
-
-                    # Firefox may be very different in 10 years.
-                    if 'Fx' in deck_name and 'eyboard' in deck_name:
-                        if years >= 10:
-                            return
-                        elif years == 5:
-                            addRLine(self, caption, "<b>" + time_str + "</b>")
-                            return
-
-                    if 'Capitals' in deck_name:
-                        if years < 3:
-                            return
-
-
-                    if 'koordinatoj' in deck_name:
-                        if years < 5:
-                            return
-
-
-                    if u'история' in deck_name:
-                        if years < 3:
-                            return
-
-                    if 'Math' in deck_name and not u'история' in deck_name:
-                        if years < 5:
-                            return
-
-
                     if years == 15:
                         caption = ('<span style="color: green">%s</span>' %
                                 caption)
@@ -209,8 +168,8 @@ def aleksejCardStatsReportForForecast(self):
 
                 if cnt >= 3 or (cnt >= 2 and c.ivl > 100):
                     # This works only for cards that will be answered now.
-                    forecast_list = [('1 Y', 365 * 1),
-                                     ('5 Y', 365 * 5),
+#                   forecast_list = [('1 Y', 365 * 1),
+                    forecast_list = [('5 Y', 365 * 5),
                                      ('10 Y', 365 * 10),
                                      ('15 Y', 365 * 15)]
 #                                     ('40 Y', 365 * 40)]
