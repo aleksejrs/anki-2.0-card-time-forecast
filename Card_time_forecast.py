@@ -137,6 +137,9 @@ def aleksejCardStatsReportForForecast(self):
                     else:
                         deck_name = self.col.decks.name(c.did)
 
+                    time_num = repstime(
+                        days=days, time_avg=time_avg, time_median=time_median,
+                        ivl=c.ivl, factor=c.factor)
                     time_str = repstime_s(days=days, factor=c.factor,
                             time_avg=time_avg, time_median=time_median,
                             ivl=c.ivl, cardStatsObject=self)
@@ -190,7 +193,6 @@ def aleksejCardStatsReportForForecast(self):
                                 caption)
                     elif years == 40:
                         caption = '<small>%s</small>' % caption
-
 
 
                     addRLine(self, caption, time_str)
@@ -322,13 +324,27 @@ def repstime_s(days, factor, time_avg, time_median, ivl, cardStatsObject):
     else:
         fmt_time = '%s' % timestr
 
+
+    # To make forecast times red if they are big.
+    foretime_base = 60
+    foretime_max = 330
+    foretime_red_perc = foretime_green_perc = 0
+
+
     if (days > (365 * 3) and time_num < 10):
-        fmt_time = '<span style="color: green">%s</span>' % fmt_time
+        foretime_green_perc = 50
     elif days > (365 * 40):
         fmt_time = '<small>%s</small>' % fmt_time
+    elif time_num > foretime_base:
+        foretime_red_perc = percFromBaseToExtreme(
+                time_num, foretime_base, foretime_max)
+
 
     if time_num >= 120:
         fmt_time = '<i>%s</i>' % fmt_time
+
+    fmt_time = u'<span style="color: rgb({0}%, {1}%, 0%)">{2}</span>'.format(
+            foretime_red_perc, foretime_green_perc, fmt_time)
 
     return fmt_time
 
