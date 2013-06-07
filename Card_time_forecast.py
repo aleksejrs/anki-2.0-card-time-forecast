@@ -123,12 +123,9 @@ def aleksejCardStatsReportForForecast(self):
 
 
                 def repstime_this(days):
-                    if days <= 0:
-                        return 0
-                    else:
-                        return repstime(days=days, time_avg=time_avg,
-                                    time_median=time_median, ivl=c.ivl,
-                                    factor=c.factor)
+                    return repstime(days=days, time_avg=time_avg,
+                                time_median=time_median, ivl=c.ivl,
+                                factor=c.factor)
 
                 def addCardForecast(caption, days):
                     if not (c.ivl > 0):
@@ -275,8 +272,11 @@ def repstime(days, time_avg, time_median, ivl, factor):
     """Returns time needed to know this card for days days since some???
     answer.
     """
-    reps = repsForIvlFactorAndMaximum(ivl=ivl, factor=factor, days=days)
-    return timeForRepsAndAverageTimes(reps, time_avg, time_median)
+    if days <= 0:
+        return 0
+    else:
+        reps = repsForIvlFactorAndMaximum(ivl=ivl, factor=factor, days=days)
+        return timeForRepsAndAverageTimes(reps, time_avg, time_median)
 
 
 
