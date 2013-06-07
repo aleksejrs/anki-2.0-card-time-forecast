@@ -160,7 +160,7 @@ def aleksejCardStatsReportForForecast(self):
                 if time_median == 0 or abs(1 - time_avg / time_median) < 0.04:
                     avgAndMedTimeLineText = self.time((time_median + time_avg) / 2)
                 else:
-                    avgAndMedTimeLineText = self.time(time_avg) + self.time(time_median)
+                    avgAndMedTimeLineText = self.time(time_avg) + ' ' + self.time(time_median)
                 self.addLine(_("Avg,Med time"), avgAndMedTimeLineText)
 
                 self.addLine(_("Total Time"), self.time(sum(all_times)))
