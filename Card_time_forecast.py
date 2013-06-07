@@ -132,9 +132,9 @@ def aleksejCardStatsReportForForecast(self):
                         return  # in-learning cards not supported
 #                    caption = fmt(days * 86400)
 
-                    time_num = repstime(
-                        days=days, time_avg=time_avg, time_median=time_median,
-                        ivl=c.ivl, factor=c.factor)
+#                    time_num = repstime(
+#                        days=days, time_avg=time_avg, time_median=time_median,
+#                        ivl=c.ivl, factor=c.factor)
                     time_str = repstime_s(days=days, factor=c.factor,
                             time_avg=time_avg, time_median=time_median,
                             ivl=c.ivl, cardStatsObject=self)
