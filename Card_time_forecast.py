@@ -123,7 +123,10 @@ def aleksejCardStatsReportForForecast(self):
 
 
                 def repstime_this(days):
-                    return repstime(days=days, time_avg=time_avg,
+                    if days <= 0:
+                        return 0
+                    else:
+                        return repstime(days=days, time_avg=time_avg,
                                     time_median=time_median, ivl=c.ivl,
                                     factor=c.factor)
 
