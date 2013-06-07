@@ -170,7 +170,13 @@ def aleksejCardStatsReportForForecast(self):
 #                self.addLine(_("All times"), all_times)
 
                 if cnt >= 3 or (cnt >= 2 and c.ivl > 100):
-                    # This works only for cards that will be answered now.
+                    # Account for cards due in the future -- consider the
+                    # due date the date of the next answer.
+                    substract_from_forecast_days = 0
+                    if c.queue in (2,3) and c.due > self.col.sched.today:
+                        substract_from_forecast_days = (c.due - self.col.sched.today)
+
+
 #                   forecast_list = [('1 Y', 365 * 1),
                     forecast_list = [('5 Y', 365 * 5),
                                      ('10 Y', 365 * 10),
@@ -183,13 +189,13 @@ def aleksejCardStatsReportForForecast(self):
 
                     for i in range(len(forecast_list)):
                         # Show no more than one forecast of 8 seconds or less.
-                        nextIsNotVerySmall = repstime_this(forecast_days[i + 1]) > 8
+                        nextIsNotVerySmall = repstime_this(forecast_days[i + 1] - substract_from_forecast_days) > 8
                         # Skip the forecast if the next one is the same.
-                        nextIsBigger = (repstime_this(forecast_days[i]) <
-                                       repstime_this(forecast_days[i + 1]))
+                        nextIsBigger = (repstime_this(forecast_days[i] - substract_from_forecast_days) <
+                                       repstime_this(forecast_days[i + 1] - substract_from_forecast_days))
 
                         if nextIsNotVerySmall and nextIsBigger:
-                            addCardForecast(forecast_captions[i], forecast_days[i])
+                            addCardForecast(forecast_captions[i], forecast_days[i] - substract_from_forecast_days)
 
 
         elif c.queue == 0:
