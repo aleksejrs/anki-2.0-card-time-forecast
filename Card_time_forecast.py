@@ -132,11 +132,6 @@ def aleksejCardStatsReportForForecast(self):
                         return  # in-learning cards not supported
 #                    caption = fmt(days * 86400)
 
-                    if c.odid and c.type == 2:
-                        deck_name = self.col.decks.name(c.odid)
-                    else:
-                        deck_name = self.col.decks.name(c.did)
-
                     time_num = repstime(
                         days=days, time_avg=time_avg, time_median=time_median,
                         ivl=c.ivl, factor=c.factor)
@@ -199,7 +194,12 @@ def aleksejCardStatsReportForForecast(self):
             self.addLine(_("Position"), c.due)
         self.addLine(_("Card Type"), c.template()['name'])
         self.addLine(_("Note Type"), c.model()['name'])
-        self.addLine(_("Deck"), self.col.decks.name(c.did))
+
+        if c.odid and c.type == 2:
+            deck_name = u"{0} ({1})".format(self.col.decks.name(c.did), self.col.decks.name(c.odid))
+        else:
+            deck_name = self.col.decks.name(c.did)
+        self.addLine(_("Deck"), deck_name)
         self.txt += "</table>"
         return self.txt
 
