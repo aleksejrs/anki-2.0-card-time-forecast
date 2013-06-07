@@ -269,10 +269,10 @@ def timeForRepsAndAverageTimes(reps, time_avg, time_median):
 
 
 def repstime(days, time_avg, time_median, ivl, factor):
-    """Returns time needed to know this card for days days since some???
-    answer.
+    """Returns time needed to know this card for days days since next
+    answer (for Review cards only).
     """
-    if days <= 0:
+    if days <= 0:   # forecast requested for before the due date
         return 0
     else:
         reps = repsForIvlFactorAndMaximum(ivl=ivl, factor=factor, days=days)
