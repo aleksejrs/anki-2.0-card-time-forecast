@@ -324,5 +324,54 @@ def repsForIvlFactorAndMaximum(ivl, factor, days):
     return reps_for_total_ivl(ivl=ivl, factor=factor, max_total_ivl=days)
 
 
+
+# The following 2 functions are used in other add-ons only.
+
+def getForecastText(self, c, forecast_days):
+    # Returns text forecast for card c in seconds, with "s" added.
+    f = getForecast(self, c, forecast_days)
+
+    if f:
+        return str(int(f)) + 's'
+    else:
+        return ''
+
+
+def getForecast(self, c, forecast_days):
+    # Returns forecast for card c in seconds.
+        if not (c.ivl > 0):
+            return  # in-learning cards not supported
+
+
+        all_times = self.col.db.list(
+            "select time/1000 from revlog where cid = :id",
+            id=c.id)
+
+        cnt = len(all_times)
+
+        if cnt:
+
+            time_avg, time_median = time_avg_and_median(all_times)
+
+
+            def repstime_this(days):
+                return repstime(days=days, time_avg=time_avg,
+                            time_median=time_median, ivl=c.ivl,
+                            factor=c.factor)
+
+
+            if c.queue in (2,3):
+                if c.due > self.col.sched.today:
+                    forecast_days -= (c.due - self.col.sched.today)
+
+            forecast = repstime_this(forecast_days)
+            if forecast:
+                return forecast
+            else:
+                return None
+
+
+
+
 CardStats.report = aleksejCardStatsReportForForecast
 
