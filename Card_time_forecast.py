@@ -6,8 +6,6 @@
 
 import time
 
-from numpy import median
-
 from aqt.qt import *
 
 from anki.stats import CardStats
@@ -119,13 +117,12 @@ def aleksejCardStatsReportForForecast(self):
 
             if cnt:
 
-                time_avg, time_median = time_avg_and_median(all_times)
+                time_avg = get_time_avg(all_times)
 
 
                 def repstime_this(days):
                     return repstime(days=days, time_avg=time_avg,
-                                time_median=time_median, ivl=c.ivl,
-                                factor=c.factor)
+                                ivl=c.ivl, factor=c.factor)
 
                 def addCardForecast(caption, days):
                     if not (c.ivl > 0):
@@ -133,10 +130,10 @@ def aleksejCardStatsReportForForecast(self):
 #                    caption = fmt(days * 86400)
 
 #                    time_num = repstime(
-#                        days=days, time_avg=time_avg, time_median=time_median,
+#                        days=days, time_avg=time_avg,
 #                        ivl=c.ivl, factor=c.factor)
                     time_str = repstime_s(days=days, factor=c.factor,
-                            time_avg=time_avg, time_median=time_median,
+                            time_avg=time_avg,
                             ivl=c.ivl, cardStatsObject=self)
 
                     years = days / 365.0
@@ -152,11 +149,7 @@ def aleksejCardStatsReportForForecast(self):
                     addRLine(self, caption, time_str)
 
 
-                if time_median == 0 or abs(1 - time_avg / time_median) < 0.04:
-                    avgAndMedTimeLineText = self.time((time_median + time_avg) / 2)
-                else:
-                    avgAndMedTimeLineText = self.time(time_avg) + ' ' + self.time(time_median)
-                self.addLine(_("Avg,Med time"), avgAndMedTimeLineText)
+                self.addLine(_("Avg,Med time"), self.time(time_avg))
 
                 self.addLine(_("Total Time"), self.time(sum(all_times)))
 #                self.addLine(_("All times"), all_times)
@@ -245,8 +238,8 @@ def total_ivls(ivl, ease):
         yield (reps, total_ivl)
 
 
-def time_avg_and_median(all_times):
-    """Takes duration of almost every review and returns average and median.
+def get_time_avg(all_times):
+    """Takes duration of almost every review and returns average.
     Skips the oldest reviews if there is enough.
     
     Durations are in seconds.
@@ -259,12 +252,11 @@ def time_avg_and_median(all_times):
         timeList = all_times[oldest_count - 1:]
 
     time_avg = sum(timeList) / float(len(timeList))  # much faster than numpy.mean
-    time_median = median(timeList)  # median is also slow
 
-    return time_avg, time_median
+    return time_avg
 
 
-def repstime(days, time_avg, time_median, ivl, factor):
+def repstime(days, time_avg, ivl, factor):
     """Returns time needed to know this card for days days since next
     answer (for Review cards only).
     """
@@ -272,16 +264,15 @@ def repstime(days, time_avg, time_median, ivl, factor):
         return 0
     else:
         reps = repsForIvlFactorAndMaximum(ivl=ivl, factor=factor, days=days)
-        return reps * (time_avg + time_median) / 2
+        return reps * time_avg
 
 
 
 
-def repstime_s(days, factor, time_avg, time_median, ivl, cardStatsObject):
+def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
     """Returns time as "1m 30s"
     """
-    time_num = repstime(days=days, time_avg=time_avg, time_median=time_median,
-            ivl=ivl, factor=factor)
+    time_num = repstime(days=days, time_avg=time_avg, ivl=ivl, factor=factor)
     timestr = cardStatsObject.time(time_num)
     if factor == 1300:
         fmt_time = '>=%s' % timestr
@@ -347,13 +338,12 @@ def getForecast(self, c, forecast_days):
 
         if cnt:
 
-            time_avg, time_median = time_avg_and_median(all_times)
+            time_avg = get_time_avg(all_times)
 
 
             def repstime_this(days):
-                return repstime(days=days, time_avg=time_avg,
-                            time_median=time_median, ivl=c.ivl,
-                            factor=c.factor)
+                return repstime(days=days, time_avg=time_avg, ivl=c.ivl,
+                                factor=c.factor)
 
 
             if c.queue in (2,3):
