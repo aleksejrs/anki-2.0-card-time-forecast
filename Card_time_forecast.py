@@ -264,10 +264,6 @@ def time_avg_and_median(all_times):
     return time_avg, time_median
 
 
-def timeForRepsAndAverageTimes(reps, time_avg, time_median):
-    return reps * (time_avg + time_median) / 2
-
-
 def repstime(days, time_avg, time_median, ivl, factor):
     """Returns time needed to know this card for days days since next
     answer (for Review cards only).
@@ -276,7 +272,7 @@ def repstime(days, time_avg, time_median, ivl, factor):
         return 0
     else:
         reps = repsForIvlFactorAndMaximum(ivl=ivl, factor=factor, days=days)
-        return timeForRepsAndAverageTimes(reps, time_avg, time_median)
+        return reps * (time_avg + time_median) / 2
 
 
 
