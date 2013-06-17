@@ -332,7 +332,7 @@ def getForecastText(self, c, forecast_days):
     f = getForecast(self, c, forecast_days)
 
     if f:
-        return str(int(f)) + 's'
+        return (str(int(f)) + 's').zfill(5)
     else:
         return ''
 
