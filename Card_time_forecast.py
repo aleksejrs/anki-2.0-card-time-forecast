@@ -258,7 +258,7 @@ def time_avg_and_median(all_times):
         oldest_count = len(all_times) // 5
         timeList = all_times[oldest_count - 1:]
 
-    time_avg = sum(timeList) / len(timeList)  # much faster than numpy.mean
+    time_avg = sum(timeList) / float(len(timeList))  # much faster than numpy.mean
     time_median = median(timeList)  # median is also slow
 
     return time_avg, time_median
