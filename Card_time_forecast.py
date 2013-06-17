@@ -149,7 +149,7 @@ def aleksejCardStatsReportForForecast(self):
                     addRLine(self, caption, time_str)
 
 
-                self.addLine(_("Avg,Med time"), self.time(time_avg))
+                self.addLine(_("Avg time"), self.time(time_avg))
 
                 self.addLine(_("Total Time"), self.time(sum(all_times)))
 #                self.addLine(_("All times"), all_times)
@@ -307,7 +307,7 @@ def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
 def repsForIvlFactorAndMaximum(ivl, factor, days):
     # I guess this is currently just a proxy because I wanted to adapt it
     # for cards due in the future.  Then it will substract the "due in"
-    # time from the "days".
+    # time from the "days".  Note that getForecast does it now.
     return reps_for_total_ivl(ivl=ivl, factor=factor, max_total_ivl=days)
 
 
