@@ -1,0 +1,32 @@
+<img style="float:right" src="https://mediagoblin.com/mgoblin_media/media_entries/380/card_time_forecast.png" alt=""/>
+
+In the card-specific statistics table (which I use with Damien's "Card Info During Review", see below),
+
+* shows how much review time may be needed to retain the memory for 5, 10, 15 years;
+** it does not consider forgetting index (which is assumed to be about 90%); calculating with it directly every time would be slow;
+** as of 2013-06-18, it uses only the mean average of the recent ≈5 review times; it used median in the past, but the functions are going to be used in other add-ons for multi-card forecasts, which need speed (calculating a median with NumPy is almost 10 times slower than calculating a mean manually); this may still be reconsidered for single-card calculation;
+* highlights low ease with red, considering its distance from the first ease and 250% (only for cards with at least 4 ratings).  Also highlights high ease with green, change opt_use_green_for_ease in the code to disable that.
+* highlights forecast time with red, considering its distance from 60s, with #FF red at 330s+ (5.5m).
+
+* I haven't considered Interval modifier; using it may make this add-on show incorrect forecasts and highlights.
+The add-on replaces CardStats.report, so if that is updated or replaced by a different add-on, something about card info output might break (but probably no dataloss).
+* For filtered decks, the source deck is not shown.
+
+<b>System requirements:</b>
+* Recommended: <a href="https://ankiweb.net/shared/info/2179254157">"Card Info During Review"</a> (to show the info in a sidebar).
+
+<b>Links</b>
+* Git repository with a wiki: <a href="https://gitorious.org/anki-2-0-card-time-forecast-and-ease-warner">gitorious.org/anki-2-0-card-time-forecast-and-ease-warner</a>;
+* another Ease-related add-on: <a href="https://ankiweb.net/shared/info/674713543">Suggest Starting Ease for the deck's options group</a>.
+
+<b>Feedback?</b>
+If you want me to notice your feedback soon, please use either:
+* the Google Group <a href="https://groups.google.com/forum/?fromgroups=#!forum/anki-addons">anki-addons</a>
+* Gitorious repository wiki mentioned in the previous section, if you think Gitorious will notify me.
+
+<b>Changelog (by date of upload)</b>
+* 2013-06-17: stop using Numpy and calculating median, use average only. It is one dependency less for this add-on, and at least 1.5 times faster for multi-card forecast by other add-ons which will depend on this one (also added two functions for them).  This made my forecast times about 10% bigger.  A problem this has is for cards which have accidentally had been left for a minute.  However, that is good if you consider cards that have been left for a minute 2 of 5 times not by an accident.
+* 2013-04-04: colors forecast times over 60s with red (gradient with upper value of 330s); removed my deck-specific tweaks and 1-year forecast; fixed a bug (probably division by zero)
+* 2013-03-27: added an option to disable green colouring of Ease numbers.
+* 2013-03-06: first version published here. Unlike the really first version, it highlights ease and has a better code structure.
+
