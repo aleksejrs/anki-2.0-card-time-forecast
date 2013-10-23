@@ -1,7 +1,8 @@
 #!/usr/bin/python -tt
 # -*- coding: utf-8 -*-
 # Copyright: Aleksej
-# Based on anki.stats from Anki 2.0.5.  Copyright: Damien Elmes <anki@ichi2.net>
+# Based on anki.stats from Anki 2.0.15 (the report function by Damien Elmes
+# <anki@ichi2.net>).
 # License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 
 import time
@@ -193,6 +194,8 @@ def aleksejCardStatsReportForForecast(self):
         else:
             deck_name = self.col.decks.name(c.did)
         self.addLine(_("Deck"), deck_name)
+        self.addLine(_("Note ID"), c.nid)
+        self.addLine(_("Card ID"), c.id)
         self.txt += "</table>"
         return self.txt
 
