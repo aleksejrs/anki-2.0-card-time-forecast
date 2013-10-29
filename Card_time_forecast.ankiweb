@@ -9,7 +9,7 @@ In the card-specific statistics table (which I use with Damien's "Card Info Duri
 * highlights forecast time with red, considering its distance from 60s, with #FF red at 330s+ (5.5m).
 
 * I haven't considered Interval modifier; using it may make this add-on show incorrect forecasts and highlights.
-The add-on replaces CardStats.report, so if that is updated or replaced by a different add-on, something about card info output might break (but probably no dataloss).
+* The add-on replaces CardStats.report, so if that is updated or replaced by a different add-on, something about card info output might break (but probably no dataloss).
 
 <b>System requirements:</b>
 * Recommended: <a href="https://ankiweb.net/shared/info/2179254157">"Card Info During Review"</a> (to show the info in a sidebar).
