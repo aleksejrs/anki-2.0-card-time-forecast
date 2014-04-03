@@ -20,6 +20,14 @@ In the card-specific statistics table (which I use with Damien's "Card Info Duri
 * another forecast add-on (depends on this one): <a href="https://ankiweb.net/shared/info/3246851123">Study screen time forecast</a>.
 * You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://gitorious.org/aleksejs-anki-advanced-browser/aleksejs-advanced-browser/source/a69f87756061fa246d534370e8b6022513459660:">I have an add-on for that</a>, but it is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>, so it probably conflicts with later versions of Advanced Browser, and thus I don't publish it on AnkiWeb.
 
+<b>Ideas</b>
+
+I am not a programmer, so these are ideas, not plans.
+* Return to using mean for single-card calculation when NumPy is installed?
+* Younger cards have longer forecasts, so they look harder, and their forecast is colored red.
+** When coloring, consider total time of the reviews.
+*** Alone, that will confuse cards whose learning has been restarted (after editing, or acquiring the knowledge necessary to memorize them).
+
 <b>Feedback?</b>
 If you want me to notice your feedback soon, please use either:
 * the Google Group <a href="https://groups.google.com/forum/?fromgroups=#!forum/anki-addons">anki-addons</a>
