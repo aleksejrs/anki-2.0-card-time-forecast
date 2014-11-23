@@ -18,7 +18,7 @@ In the card-specific statistics table (which I use with Damien's "Card Info Duri
 * Git repository with a wiki: <a href="https://gitorious.org/anki-2-0-card-time-forecast-and-ease-warner">gitorious.org/anki-2-0-card-time-forecast-and-ease-warner</a>;
 * another Ease-related add-on: <a href="https://ankiweb.net/shared/info/674713543">Suggest Starting Ease for the deck's options group</a>.
 * another forecast add-on (depends on this one): <a href="https://ankiweb.net/shared/info/3246851123">Study screen time forecast</a>.
-* You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://gitorious.org/aleksejs-anki-advanced-browser/aleksejs-advanced-browser/source/master:">I have an add-on for that</a>, which is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. I've renamed the files, so it runs together with AB.
+* You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://gitorious.org/aleksejs-anki-advanced-browser/aleksejs-advanced-browser/source/master:">I have an add-on for that</a>, which is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. I've renamed the files, so it works alongside current version of AB.
 
 <b>Ideas</b>
 
