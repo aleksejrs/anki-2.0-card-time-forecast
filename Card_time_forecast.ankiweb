@@ -27,6 +27,7 @@ I am not a programmer, so these are ideas, not plans.
 * Younger cards have longer forecasts, so they look harder, and their forecast is colored red.
 ** When coloring, consider total time of the reviews.
 *** Alone, that will confuse cards whose learning has been restarted (after editing, or acquiring the knowledge necessary to memorize them).
+* Make the configurability of the medium ease more prominent (currently it's between 250 and a starting ease).
 
 <b>Feedback?</b>
 If you want me to notice your feedback soon, please use either:
