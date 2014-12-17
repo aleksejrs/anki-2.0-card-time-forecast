@@ -158,9 +158,9 @@ def aleksejCardStatsReportForForecast(self):
                 if cnt >= 3 or (cnt >= 2 and c.ivl > 100):
                     # Account for cards due in the future -- consider the
                     # due date the date of the next answer.
-                    substract_from_forecast_days = 0
+                    subtract_from_forecast_days = 0
                     if c.queue in (2,3) and c.due > self.col.sched.today:
-                        substract_from_forecast_days = (c.due - self.col.sched.today)
+                        subtract_from_forecast_days = (c.due - self.col.sched.today)
 
 
 #                   forecast_list = [('1 Y', 365 * 1),
@@ -175,13 +175,13 @@ def aleksejCardStatsReportForForecast(self):
 
                     for i in range(len(forecast_list)):
                         # Show no more than one forecast of 8 seconds or less.
-                        nextIsNotVerySmall = repstime_this(forecast_days[i + 1] - substract_from_forecast_days) > 8
+                        nextIsNotVerySmall = repstime_this(forecast_days[i + 1] - subtract_from_forecast_days) > 8
                         # Skip the forecast if the next one is the same.
-                        nextIsBigger = (repstime_this(forecast_days[i] - substract_from_forecast_days) <
-                                       repstime_this(forecast_days[i + 1] - substract_from_forecast_days))
+                        nextIsBigger = (repstime_this(forecast_days[i] - subtract_from_forecast_days) <
+                                       repstime_this(forecast_days[i + 1] - subtract_from_forecast_days))
 
                         if nextIsNotVerySmall and nextIsBigger:
-                            addCardForecast(forecast_captions[i], forecast_days[i] - substract_from_forecast_days)
+                            addCardForecast(forecast_captions[i], forecast_days[i] - subtract_from_forecast_days)
 
 
         elif c.queue == 0:
@@ -309,7 +309,7 @@ def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
 
 def repsForIvlFactorAndMaximum(ivl, factor, days):
     # I guess this is currently just a proxy because I wanted to adapt it
-    # for cards due in the future.  Then it will substract the "due in"
+    # for cards due in the future.  Then it will subtract the "due in"
     # time from the "days".  Note that getForecast does it now.
     return reps_for_total_ivl(ivl=ivl, factor=factor, max_total_ivl=days)
 
