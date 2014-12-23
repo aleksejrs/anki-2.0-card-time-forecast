@@ -13,6 +13,10 @@ from anki.stats import CardStats
 from anki.utils import fmtTimeSpan
 
 
+# 1300 is the minimum ease, the card may actually be harder.
+lowest_ease_possible = 1300
+
+
 def percFromBaseToExtreme(value, base, extreme):
     """Shows, in %, where value is on the way from base to extreme.
 
@@ -68,8 +72,7 @@ def aleksejCardStatsReportForForecast(self):
                 self.addLine(_("Interval"), fmt(c.ivl * 86400))
 
             ease_str = '%d%%' % (c.factor / 10.0)
-            # 1300 is the minimum ease, the card may actually be harder.
-            if c.factor == 1300:
+            if c.factor <= lowest_ease_possible:
                 ease_str = '<i>%s</i>' % ease_str
 
 
@@ -92,7 +95,6 @@ def aleksejCardStatsReportForForecast(self):
                     medium_ease = 2500
 
                 if c.factor < medium_ease:
-                    lowest_ease_possible = 1300
                     ease_green_perc = 0
                     ease_red_perc = percFromBaseToExtreme(
                                 c.factor, medium_ease, lowest_ease_possible)
@@ -277,7 +279,7 @@ def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
     """
     time_num = repstime(days=days, time_avg=time_avg, ivl=ivl, factor=factor)
     timestr = cardStatsObject.time(time_num)
-    if factor == 1300:
+    if factor <= lowest_ease_possible:
         fmt_time = '>=%s' % timestr
     else:
         fmt_time = '%s' % timestr
