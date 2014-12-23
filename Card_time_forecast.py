@@ -179,11 +179,11 @@ def aleksejCardStatsReportForForecast(self):
                         nextIsNotVerySmall = repstime_this(forecast_days[i + 1] - subtract_from_forecast_days) > 8
                         # Skip the forecast if the next one is the same.
                         nextIsBigger = (repstime_this(forecast_days[i] - subtract_from_forecast_days) <
-                                       repstime_this(forecast_days[i + 1] - subtract_from_forecast_days))
+                                        repstime_this(forecast_days[i + 1] - subtract_from_forecast_days))
 
                         if nextIsNotVerySmall and nextIsBigger:
-                            addCardForecast(forecast_captions[i], forecast_days[i] - subtract_from_forecast_days)
-
+                            addCardForecast(forecast_captions[i], forecast_days[i] -
+                                            subtract_from_forecast_days)
 
         elif c.queue == 0:
             self.addLine(_("Position"), c.due)
@@ -191,7 +191,8 @@ def aleksejCardStatsReportForForecast(self):
         self.addLine(_("Note Type"), c.model()['name'])
 
         if c.odid and c.type == 2:
-            deck_name = u"{0} ({1})".format(self.col.decks.name(c.did), self.col.decks.name(c.odid))
+            deck_name = u"{0} ({1})".format(
+                    self.col.decks.name(c.did), self.col.decks.name(c.odid))
         else:
             deck_name = self.col.decks.name(c.did)
         self.addLine(_("Deck"), deck_name)
