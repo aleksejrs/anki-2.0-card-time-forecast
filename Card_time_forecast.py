@@ -109,6 +109,7 @@ def aleksejCardStatsReportForForecast(self):
                 else:
                     ease_green_perc = ease_red_perc = 0
 
+
                 ease_str = '<span style="color: rgb({0}%, {1}%, 0%)">{2}</span>'.format(
                         ease_red_perc, ease_green_perc, ease_str)
 
@@ -270,8 +271,6 @@ def repstime(days, time_avg, ivl, factor):
         return reps * time_avg
 
 
-
-
 def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
     """Returns time as "1m 30s"
     """
@@ -282,12 +281,10 @@ def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
     else:
         fmt_time = '%s' % timestr
 
-
     # To make forecast times red if they are big.
     foretime_base = 60
     foretime_max = 330
     foretime_red_perc = foretime_green_perc = 0
-
 
     if (days > (365 * 3) and time_num < 10):
         foretime_green_perc = 50
@@ -313,14 +310,11 @@ def repsForIvlFactorAndMaximum(ivl, factor, days):
     # time from the "days".  Note that getForecast does it now.
     return reps_for_total_ivl(ivl=ivl, factor=factor, max_total_ivl=days)
 
-
-
 # The following 2 functions are used in other add-ons only.
 
 def getForecastText(self, c, forecast_days):
     # Returns text forecast for card c in seconds, with "s" added.
     f = getForecast(self, c, forecast_days)
-
     if f:
         return (str(int(f)) + 's')
     else:
@@ -331,7 +325,6 @@ def getForecast(self, c, forecast_days):
     # Returns forecast for card c in seconds.
         if not (c.ivl > 0):
             return  # in-learning cards not supported
-
 
         all_times = self.col.db.list(
             "select time/1000 from revlog where cid = :id",
@@ -363,4 +356,3 @@ def getForecast(self, c, forecast_days):
 
 
 CardStats.report = aleksejCardStatsReportForForecast
-
