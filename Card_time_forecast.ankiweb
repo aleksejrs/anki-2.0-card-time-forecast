@@ -36,7 +36,7 @@ If you want me to notice your feedback soon, please use either:
 * the Google Group <a href="https://groups.google.com/forum/?fromgroups=#!forum/anki-addons">anki-addons</a>
 
 <b>Changelog (by date of upload)</b>
-* 2014-12-25: for coloring, use the Starting ease, not the average of it and 250.
+* 2014-12-25: for coloring, use the card's first ease, not the average of it and 250.
 * 2013-10-23: from Anki 2.0.15: add Note ID and Card ID to the info table.
 * 2013-06-17: stop using Numpy and calculating median, use average only. It is one dependency less for this add-on, and at least 1.5 times faster for multi-card forecast by other add-ons which will depend on this one (also added two functions for them).  This made my forecast times about 10% bigger.  A problem this has is for cards which have accidentally had been left for a minute.  However, that is good if you consider cards that have been left for a minute 2 of 5 times not by an accident.  For filtered decks, the source deck is also shown now.
 * 2013-04-04: colors forecast times over 60s with red (gradient with upper value of 330s); removed my deck-specific tweaks and 1-year forecast; fixed a bug (probably division by zero)
