@@ -88,7 +88,7 @@ def aleksejCardStatsReportForForecast(self):
                     "select factor from revlog where cid = :id and factor != 0 limit 1",
                     id=c.id)
 
-                # Account for a custom Starting Ease.
+                # Account for a custom Starting Ease at the first review.
                 if len(first_factor) > 0:
                     medium_ease = first_factor[0]
                 else:

@@ -5,7 +5,7 @@ In the card-specific statistics table (which I use with Damien's "Card Info Duri
 * shows how much review time may be needed to retain the memory for 5, 10, 15 years, assuming the "Good" button is pressed every time;
 ** it does not consider forgetting index (which is assumed to be about 90%); calculating with it directly every time would be slow (if it affects the relative numbers, maybe the effect could be approximated differently?);
 ** as of 2013-06-18, it uses only the mean average of the recent ≈5 review times; it used also the median in the past, but now the functions are used in add-ons for multi-card forecasts, which need speed (calculating a median with NumPy is almost 10 times slower than calculating a mean manually);
-* highlights low ease with red, considering its distance from the first ease and 250% (only for cards with at least 4 ratings).  Also highlights high ease with green, change opt_use_green_for_ease in the code to disable that.
+* highlights low ease with red, considering its distance from the first ease (only for cards with at least 4 ratings).  Also highlights high ease with green, change opt_use_green_for_ease in the code to disable that.
 * highlights forecast time with red, considering its distance from 60s, with #FF red at 330s+ (5.5m).
 
 * I haven't considered Interval modifier; using it may make this add-on show incorrect forecasts and highlights.
