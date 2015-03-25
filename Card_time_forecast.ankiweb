@@ -15,10 +15,11 @@ In the card-specific statistics table (which I use with Damien's "Card Info Duri
 * Recommended: <a href="https://ankiweb.net/shared/info/2179254157">"Card Info During Review"</a> (to show the info in a sidebar).
 
 <b>Links</b>
-* Git repository with a wiki: <a href="https://gitorious.org/anki-2-0-card-time-forecast-and-ease-warner">gitorious.org/anki-2-0-card-time-forecast-and-ease-warner</a>;
+* Source code repository (GitHub): <a href="https://github.com/aleksejrs/anki-2.0-card-time-forecast">github.com/aleksejrs/anki-2.0-card-time-forecast</a>;
+* Old repository location (Gitorious): <a href="https://gitorious.org/anki-2-0-card-time-forecast-and-ease-warner">gitorious.org/anki-2-0-card-time-forecast-and-ease-warner</a>;
 * another Ease-related add-on: <a href="https://ankiweb.net/shared/info/674713543">Suggest Starting Ease for the deck's options group</a>.
 * another forecast add-on (depends on this one): <a href="https://ankiweb.net/shared/info/3246851123">Study screen time forecast</a>.
-* You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://gitorious.org/aleksejs-anki-advanced-browser/aleksejs-advanced-browser/source/master:">I have an add-on for that</a>, which is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. I've renamed the files, so it works alongside current version of AB.
+* You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://github.com/aleksejrs/anki-aleksejs-advanced-browser-repo">I have an add-on for that</a>, which is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. I've renamed the files, so it works alongside current version of AB.
 
 <b>Ideas</b>
 
@@ -31,11 +32,11 @@ I am not a programmer, so these are ideas, not plans.
 
 <b>Feedback?</b>
 If you want me to notice your feedback soon, please use either:
-* <a href="https://anki.tenderapp.com/discussions/add-ons">the TenderApp discussion area</a>
-* Gitorious repository wiki mentioned in the previous section, if you think Gitorious will notify me.
-* the Google Group <a href="https://groups.google.com/forum/?fromgroups=#!forum/anki-addons">anki-addons</a>
+* <a href="https://anki.tenderapp.com/discussions/add-ons">the TenderApp discussion area</a>;
+* [GitHub issue tracker](https://github.com/aleksejrs/anki-2.0-card-time-forecast/issues).
 
 <b>Changelog (by date of upload)</b>
+* (2015-03-25: source code moved to GitHub, because Gitorious will be closed in May)
 * 2014-12-25: for coloring, use the card's first ease, not the average of it and 250.
 * 2013-10-23: from Anki 2.0.15: add Note ID and Card ID to the info table.
 * 2013-06-17: stop using Numpy and calculating median, use average only. It is one dependency less for this add-on, and at least 1.5 times faster for multi-card forecast by other add-ons which will depend on this one (also added two functions for them).  This made my forecast times about 10% bigger.  A problem this has is for cards which have accidentally had been left for a minute.  However, that is good if you consider cards that have been left for a minute 2 of 5 times not by an accident.  For filtered decks, the source deck is also shown now.
