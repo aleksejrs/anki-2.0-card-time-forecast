@@ -237,7 +237,7 @@ def total_ivls(ivl, ease):
 
     total_ivl = 0
 
-    for reps in range(1, 999):
+    for reps in range(1, 100000):
 
         ivl *= ease
         total_ivl += ivl
