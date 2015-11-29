@@ -1,43 +1,42 @@
 <img style="float:right" src="https://mediagoblin.com/mgoblin_media/media_entries/380/card_time_forecast.png" alt=""/>
 
-In the card-specific statistics table (which I use with Damien's "Card Info During Review", see below),
+В таблице сведений о карточке (которую я использую с помощью дополнения Дэмиена «Card Info During Review», см. ниже),
 
-* shows how much review time may be needed to retain the memory for 5, 10, 15 years, assuming the "Good" button is pressed every time;
-** it does not consider forgetting index (which is assumed to be about 90%); calculating with it directly every time would be slow (if it affects the relative numbers, maybe the effect could be approximated differently?);
-** as of 2013-06-18, it uses only the mean average of the recent ≈5 review times; it used also the median in the past, but now the functions are used in add-ons for multi-card forecasts, which need speed (calculating a median with NumPy is almost 10 times slower than calculating a mean manually);
-* highlights low ease with red, considering its distance from the first ease (only for cards with at least 4 ratings).  Also highlights high ease with green, change opt_use_green_for_ease in the code to disable that.
-* highlights forecast time with red, considering its distance from 60s, with #FF red at 330s+ (5.5m).
+* показывает, сколько времени повторений может понадобиться, чтобы помнить карточку 5, 10, 15 лет, при условии, что каждый раз нажимается кнопка «В самый раз»;
+** оно не учитывает индекс забывания (forgetting index), который предполагается около 90 %; calculating with it directly every time would be slow (if it affects the relative numbers, maybe the effect could be approximated differently?);
+** по состоянию на 2013-06-18, используется только среднее арифметическое времён последних примерно 5 повторений; раньше использовалась и медиана, но теперь эти функции используются в дополнениях для прогнозов для большого числа карточек, а для этого нужна скорость (вычисление медианы с помощью NumPy оказалось почти в 10 раз медленнее, чем вычисление среднего арифметического без неё);
+* подкрашивает низкую лёгкость красным цветом, учитывая её расстояние от первой лёгкости (только для карточек с не менее 4 оценок).  Также подкрашивает высокую лёгкость зелёным; чтобы это выключить, измените переменную opt_use_green_for_ease в исходном коде.
+* подкрашивает время прогноза красным, учитывая его расстояние от 60 с., совсем красным #FF при 330 и больше (5.5 минут).
 
-* I haven't considered Interval modifier; using it may make this add-on show incorrect forecasts and highlights.
-* The add-on replaces CardStats.report, so if that is updated or replaced by a different add-on, something about card info output might break (but probably no dataloss).
+* я не учитывал модификатор интервала; его использование может привести к неправильным прогнозам и подкрашиваниям.
+* Это дополнение заменяет функцию CardStats.report, так что её обновление или замена другим дополнинем может нарушить что-нибудь связанное с выводом Сведений о карточке (хотя потерь данных, скорее всего, быть не может).
 
-<b>System requirements:</b>
-* Recommended: <a href="https://ankiweb.net/shared/info/2179254157">"Card Info During Review"</a> (to show the info in a sidebar).
+<b>Системные требования:</b>
+* Рекомендуется: <a href="https://ankiweb.net/shared/info/2179254157">"Card Info During Review"</a> (чтобы показывать сведения в боковой панели).
 
-<b>Links</b>
-* Source code repository (GitHub): <a href="https://github.com/aleksejrs/anki-2.0-card-time-forecast">github.com/aleksejrs/anki-2.0-card-time-forecast</a>;
-* Old repository location (Gitorious): <a href="https://gitorious.org/anki-2-0-card-time-forecast-and-ease-warner">gitorious.org/anki-2-0-card-time-forecast-and-ease-warner</a>;
-* another Ease-related add-on: <a href="https://ankiweb.net/shared/info/674713543">Suggest Starting Ease for the deck's options group</a>.
-* another forecast add-on (depends on this one): <a href="https://ankiweb.net/shared/info/3246851123">Study screen time forecast</a>.
-* You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://github.com/aleksejrs/anki-aleksejs-advanced-browser-repo">I have an add-on for that</a>, which is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. I've renamed the files, so it works alongside current version of AB.
+<b>Ссылки</b>
+* Репозиторий исходного кода (GitHub): <a href="https://github.com/aleksejrs/anki-2.0-card-time-forecast">github.com/aleksejrs/anki-2.0-card-time-forecast</a>;
+* другое дополнение связанное с лёгкостью: <a href="https://ankiweb.net/shared/info/674713543">Suggest Starting Ease for the deck's options group</a>.
+* другое дополнение для прогнозов (требует это): <a href="https://ankiweb.net/shared/info/3246851123">Study screen time forecast</a>.
+* Вы, наверное, задумались, можно ли как-то показать прогноз для каждой карточки в Обозревателе.  <a href="https://github.com/aleksejrs/anki-aleksejs-advanced-browser-repo">У меня есть такое дополнение</a>, которое является модулем для старой альфа-версии <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. Я переименовал файлы, так что оно работает одновременно с текущей версией Advanced Browser.
 
-<b>Ideas</b>
+<b>Идеи</b>
 
-I am not a programmer, so these are ideas, not plans.
-* Return to using mean for single-card calculation when NumPy is installed?
-* Younger cards have longer forecasts, so they look harder, and their forecast is colored red.
-** When coloring, consider total time of the reviews.
-*** Alone, that will confuse cards whose learning has been restarted (after editing, or acquiring the knowledge necessary to memorize them).
+Я не программист, так что это только идеи, а не планы.
+* Снова использовать медиану для отдельных карточек, если установлено NumPy?
+* У более новых карточек длиннее прогнозы, так что они выглядят труднее, и их прогнозы подкрашиваются красным.
+** При подкрашивании учитывать общее время повторений.
+*** Сам по себе это испортит положение с карточками, повторение которых было начато заново (после редактирования, или после получения знания, которое было необходимо для их запоминания).
 * Make the configurability of the medium ease more prominent (currently it's the Starting ease).
 
-<b>Feedback?</b>
-If you want me to notice your feedback soon, please use either:
-* <a href="https://anki.tenderapp.com/discussions/add-ons">the TenderApp discussion area</a> (mention the add-on name in the message title);
+<b>Ошибки и предложения?</b>
+Если хотите, чтобы я скорее заметил ваши отзывы, пожалуйста используйте один из этих способов связи:
+* <a href="https://anki.tenderapp.com/discussions/add-ons">форум на TenderApp</a> (укажите название дополнения в заголовке сообщения; желательно писать по-английски);
 
-* <a href="https://github.com/aleksejrs/anki-2.0-card-time-forecast/issues">GitHub issue tracker</a>.
+* <a href="https://github.com/aleksejrs/anki-2.0-card-time-forecast/issues">Багтрекер на GitHub</a>.
 
 <b>Changelog (by date of upload)</b>
-* 2015-10-16: increased the max number of reviews in a forecast from about 998 to about 99999. I hope it does not affect performance (haven't tested).
+* 2015-10-16: максимальное время повторений в прогнозе увеличено с около 998 до около 99999. Надеюсь, это не скажется на производительности (не проверял).
 * (2015-03-25: source code moved to GitHub, because Gitorious will be closed in May)
 * 2014-12-25: for coloring, use the card's first ease, not the average of it and 250.
 * 2013-10-23: from Anki 2.0.15: add Note ID and Card ID to the info table.
