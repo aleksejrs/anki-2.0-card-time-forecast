@@ -37,7 +37,7 @@ If you want me to notice your feedback soon, please use either:
 * <a href="https://github.com/aleksejrs/anki-2.0-card-time-forecast/issues">GitHub issue tracker</a>.
 
 <b>Changelog (by date of upload)</b>
-* 2015-10-16: increased the max number of reviews in a forecast from about 998 to about 99999.
+* 2015-10-16: increased the max number of reviews in a forecast from about 998 to about 99999. I hope it does not affect performance (haven't tested).
 * (2015-03-25: source code moved to GitHub, because Gitorious will be closed in May)
 * 2014-12-25: for coloring, use the card's first ease, not the average of it and 250.
 * 2013-10-23: from Anki 2.0.15: add Note ID and Card ID to the info table.
