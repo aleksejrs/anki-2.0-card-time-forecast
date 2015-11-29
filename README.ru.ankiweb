@@ -18,7 +18,7 @@
 * Репозиторий исходного кода (GitHub): <a href="https://github.com/aleksejrs/anki-2.0-card-time-forecast">github.com/aleksejrs/anki-2.0-card-time-forecast</a>;
 * другое дополнение связанное с лёгкостью: <a href="https://ankiweb.net/shared/info/674713543">Suggest Starting Ease for the deck's options group</a>.
 * другое дополнение для прогнозов (требует это): <a href="https://ankiweb.net/shared/info/3246851123">Study screen time forecast</a>.
-* Вы, наверное, задумались, можно ли как-то показать прогноз для каждой карточки в Обозревателе.  <a href="https://github.com/aleksejrs/anki-aleksejs-advanced-browser-repo">У меня есть такое дополнение</a>, которое является модулем для старой альфа-версии <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. Я переименовал файлы, так что оно работает одновременно с текущей версией Advanced Browser.
+* Вы, наверное, задумались, можно ли как-то показать прогноз для каждой карточки в Обозревателе.  <a href="https://github.com/aleksejrs/anki-aleksejs-advanced-browser-repo">У меня есть такое дополнение</a>, которое является модулем для старой альфа-версии <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. Я переименовал файлы, так что оно работает одновременно с текущей версией Advanced Browser.  Однако я не полностью понимаю, как оно работает.
 
 <b>Идеи</b>
 
