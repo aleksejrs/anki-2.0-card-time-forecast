@@ -41,167 +41,167 @@ def percFromBaseToExtreme(value, base, extreme):
 
 def aleksejCardStatsReportForForecast(self):
 
-        # Make Ease number green for easy cards.  Low ease numbers are marked
-        # red, so you may want to disable this if it is difficult for you to
-        # distinguish red and green.
-        opt_use_green_for_ease = True
+    # Make Ease number green for easy cards.  Low ease numbers are marked
+    # red, so you may want to disable this if it is difficult for you to
+    # distinguish red and green.
+    opt_use_green_for_ease = True
 
-        c = self.card
-        fmt = lambda x, **kwargs: fmtTimeSpan(x, short=True, **kwargs)
-        self.txt = '<table width="100%">'
-        self.addLine(_("Added"), self.date(c.id/1000))
-        first = self.col.db.scalar(
-            "select min(id) from revlog where cid = ?", c.id)
-        last = self.col.db.scalar(
-            "select max(id) from revlog where cid = ?", c.id)
-        if first:
-            self.addLine(_("First Review"), self.date(first/1000))
-            self.addLine(_("Latest Review"), self.date(last/1000))
-        if c.type in (1,2):
-            if c.odid or c.queue < 0:
-                next = None
+    c = self.card
+    fmt = lambda x, **kwargs: fmtTimeSpan(x, short=True, **kwargs)
+    self.txt = '<table width="100%">'
+    self.addLine(_("Added"), self.date(c.id/1000))
+    first = self.col.db.scalar(
+        "select min(id) from revlog where cid = ?", c.id)
+    last = self.col.db.scalar(
+        "select max(id) from revlog where cid = ?", c.id)
+    if first:
+        self.addLine(_("First Review"), self.date(first/1000))
+        self.addLine(_("Latest Review"), self.date(last/1000))
+    if c.type in (1, 2):
+        if c.odid or c.queue < 0:
+            next = None
+        else:
+            if c.queue in (2,3):
+                next = time.time()+((c.due - self.col.sched.today)*86400)
             else:
-                if c.queue in (2,3):
-                    next = time.time()+((c.due - self.col.sched.today)*86400)
-                else:
-                    next = c.due
-                next = self.date(next)
-            if next:
-                self.addLine(_("Due"), next)
-            if c.queue == 2:
-                self.addLine(_("Interval"), fmt(c.ivl * 86400))
+                next = c.due
+            next = self.date(next)
+        if next:
+            self.addLine(_("Due"), next)
+        if c.queue == 2:
+            self.addLine(_("Interval"), fmt(c.ivl * 86400))
 
-            ease_str = '%d%%' % (c.factor / 10.0)
-            if c.factor <= lowest_ease_possible:
-                ease_str = '<i>%s</i>' % ease_str
+        ease_str = '%d%%' % (c.factor / 10.0)
+        if c.factor <= lowest_ease_possible:
+            ease_str = '<i>%s</i>' % ease_str
 
 
-            all_times = self.col.db.list(
-                "select time/1000 from revlog where cid = :id",
+        all_times = self.col.db.list(
+            "select time/1000 from revlog where cid = :id",
+            id=c.id)
+
+        cnt = len(all_times)
+
+        # Making the Ease number red or green.
+        if cnt > 4:
+            first_factor = self.col.db.list(
+                "select factor from revlog where cid = :id and factor != 0 limit 1",
                 id=c.id)
 
-            cnt = len(all_times)
+            # Account for a custom Starting Ease at the first review.
+            if len(first_factor) > 0:
+                medium_ease = first_factor[0]
+            else:
+                medium_ease = 2500
 
-            # Making the Ease number red or green.
-            if cnt > 4:
-                first_factor = self.col.db.list(
-                    "select factor from revlog where cid = :id and factor != 0 limit 1",
-                    id=c.id)
-
-                # Account for a custom Starting Ease at the first review.
-                if len(first_factor) > 0:
-                    medium_ease = first_factor[0]
-                else:
-                    medium_ease = 2500
-
-                if c.factor < medium_ease:
-                    ease_green_perc = 0
-                    ease_red_perc = percFromBaseToExtreme(
-                                c.factor, medium_ease, lowest_ease_possible)
-                # If the card is easy, make the number green.
-                # XXX: This is not very useful, and may be bad for
-                # accessibility (color blindness).  To disable it, change
-                # opt_use_green_for_ease above to False.
-                elif c.factor > medium_ease and opt_use_green_for_ease:
-                    # Precision is probably not important here.
-                    highest_ease_possible = 3560
-                    ease_red_perc = 0
-                    ease_green_perc = percFromBaseToExtreme(
-                                c.factor, medium_ease, highest_ease_possible)
-                else:
-                    ease_green_perc = ease_red_perc = 0
+            if c.factor < medium_ease:
+                ease_green_perc = 0
+                ease_red_perc = percFromBaseToExtreme(
+                    c.factor, medium_ease, lowest_ease_possible)
+            # If the card is easy, make the number green.
+            # XXX: This is not very useful, and may be bad for
+            # accessibility (color blindness).  To disable it, change
+            # opt_use_green_for_ease above to False.
+            elif c.factor > medium_ease and opt_use_green_for_ease:
+                # Precision is probably not important here.
+                highest_ease_possible = 3560
+                ease_red_perc = 0
+                ease_green_perc = percFromBaseToExtreme(
+                            c.factor, medium_ease, highest_ease_possible)
+            else:
+                ease_green_perc = ease_red_perc = 0
 
 
-                ease_str = '<span style="color: rgb({0}%, {1}%, 0%)">{2}</span>'.format(
-                        ease_red_perc, ease_green_perc, ease_str)
+            ease_str = '<span style="color: rgb({0}%, {1}%, 0%)">{2}</span>'.format(
+                ease_red_perc, ease_green_perc, ease_str)
 
-            self.addLine(_("Ease"), ease_str)
-            self.addLine(_("Reviews"), "%d" % c.reps)
-            self.addLine(_("Lapses"), "%d" % c.lapses)
+        self.addLine(_("Ease"), ease_str)
+        self.addLine(_("Reviews"), "%d" % c.reps)
+        self.addLine(_("Lapses"), "%d" % c.lapses)
 
-            if cnt:
+        if cnt:
 
-                time_avg = get_time_avg(all_times)
+            time_avg = get_time_avg(all_times)
 
 
-                def repstime_this(days):
-                    return repstime(days=days, time_avg=time_avg,
+            def repstime_this(days):
+                return repstime(days=days, time_avg=time_avg,
                                 ivl=c.ivl, factor=c.factor)
 
-                def addCardForecast(caption, days):
-                    if not (c.ivl > 0):
-                        return  # in-learning cards not supported
-#                    caption = fmt(days * 86400)
+            def addCardForecast(caption, days):
+                if not (c.ivl > 0):
+                    return  # in-learning cards not supported
+#                caption = fmt(days * 86400)
 
-#                    time_num = repstime(
-#                        days=days, time_avg=time_avg,
-#                        ivl=c.ivl, factor=c.factor)
-                    time_str = repstime_s(days=days, factor=c.factor,
-                            time_avg=time_avg,
-                            ivl=c.ivl, cardStatsObject=self)
+#                time_num = repstime(
+#                    days=days, time_avg=time_avg,
+#                    ivl=c.ivl, factor=c.factor)
+                time_str = repstime_s(days=days, factor=c.factor,
+                                      time_avg=time_avg,
+                                      ivl=c.ivl, cardStatsObject=self)
 
-                    years = days / 365.0
-
-
-                    if years == 15:
-                        caption = ('<span style="color: green">%s</span>' %
-                                caption)
-                    elif years == 40:
-                        caption = '<small>%s</small>' % caption
+                years = days / 365.0
 
 
-                    addRLine(self, caption, time_str)
+                if years == 15:
+                    caption = ('<span style="color: green">%s</span>' %
+                               caption)
+                elif years == 40:
+                    caption = '<small>%s</small>' % caption
 
 
-                self.addLine(_("Avg time"), self.time(time_avg))
-
-                self.addLine(_("Total Time"), self.time(sum(all_times)))
-#                self.addLine(_("All times"), all_times)
-
-                if cnt >= 3 or (cnt >= 2 and c.ivl > 100):
-                    # Account for cards due in the future -- consider the
-                    # due date the date of the next answer.
-                    subtract_from_forecast_days = 0
-                    if c.queue in (2,3) and c.due > self.col.sched.today:
-                        subtract_from_forecast_days = (c.due - self.col.sched.today)
+                addRLine(self, caption, time_str)
 
 
-#                   forecast_list = [('1 Y', 365 * 1),
-                    forecast_list = [('5 Y', 365 * 5),
-                                     ('10 Y', 365 * 10),
-                                     ('15 Y', 365 * 15)]
-#                                     ('40 Y', 365 * 40)]
+            self.addLine(_("Avg time"), self.time(time_avg))
 
-                    forecast_captions, forecast_days = zip(*forecast_list)
-                    forecast_captions, forecast_days = list(forecast_captions), list(forecast_days)
-                    forecast_days.append(365 * 100)
+            self.addLine(_("Total Time"), self.time(sum(all_times)))
+#            self.addLine(_("All times"), all_times)
 
-                    for i in range(len(forecast_list)):
-                        # Show no more than one forecast of 8 seconds or less.
-                        nextIsNotVerySmall = repstime_this(forecast_days[i + 1] - subtract_from_forecast_days) > 8
-                        # Skip the forecast if the next one is the same.
-                        nextIsBigger = (repstime_this(forecast_days[i] - subtract_from_forecast_days) <
-                                        repstime_this(forecast_days[i + 1] - subtract_from_forecast_days))
+            if cnt >= 3 or (cnt >= 2 and c.ivl > 100):
+                # Account for cards due in the future -- consider the
+                # due date the date of the next answer.
+                subtract_from_forecast_days = 0
+                if c.queue in (2,3) and c.due > self.col.sched.today:
+                    subtract_from_forecast_days = (c.due - self.col.sched.today)
 
-                        if nextIsNotVerySmall and nextIsBigger:
-                            addCardForecast(forecast_captions[i], forecast_days[i] -
-                                            subtract_from_forecast_days)
 
-        elif c.queue == 0:
-            self.addLine(_("Position"), c.due)
-        self.addLine(_("Card Type"), c.template()['name'])
-        self.addLine(_("Note Type"), c.model()['name'])
+#               forecast_list = [('1 Y', 365 * 1),
+                forecast_list = [('5 Y', 365 * 5),
+                                 ('10 Y', 365 * 10),
+                                 ('15 Y', 365 * 15)]
+#                                 ('40 Y', 365 * 40)]
 
-        if c.odid and c.type == 2:
-            deck_name = u"{0} ({1})".format(
-                    self.col.decks.name(c.did), self.col.decks.name(c.odid))
-        else:
-            deck_name = self.col.decks.name(c.did)
-        self.addLine(_("Deck"), deck_name)
-        self.addLine(_("Note ID"), c.nid)
-        self.addLine(_("Card ID"), c.id)
-        self.txt += "</table>"
-        return self.txt
+                forecast_captions, forecast_days = zip(*forecast_list)
+                forecast_captions, forecast_days = list(forecast_captions), list(forecast_days)
+                forecast_days.append(365 * 100)
+
+                for i in range(len(forecast_list)):
+                    # Show no more than one forecast of 8 seconds or less.
+                    nextIsNotVerySmall = repstime_this(forecast_days[i + 1] - subtract_from_forecast_days) > 8
+                    # Skip the forecast if the next one is the same.
+                    nextIsBigger = (repstime_this(forecast_days[i] - subtract_from_forecast_days) <
+                                    repstime_this(forecast_days[i + 1] - subtract_from_forecast_days))
+
+                    if nextIsNotVerySmall and nextIsBigger:
+                        addCardForecast(forecast_captions[i], forecast_days[i] -
+                                        subtract_from_forecast_days)
+
+    elif c.queue == 0:
+        self.addLine(_("Position"), c.due)
+    self.addLine(_("Card Type"), c.template()['name'])
+    self.addLine(_("Note Type"), c.model()['name'])
+
+    if c.odid and c.type == 2:
+        deck_name = u"{0} ({1})".format(
+            self.col.decks.name(c.did), self.col.decks.name(c.odid))
+    else:
+        deck_name = self.col.decks.name(c.did)
+    self.addLine(_("Deck"), deck_name)
+    self.addLine(_("Note ID"), c.nid)
+    self.addLine(_("Card ID"), c.id)
+    self.txt += "</table>"
+    return self.txt
 
 
 def addRLine(self, k, v):
@@ -248,7 +248,7 @@ def total_ivls(ivl, ease):
 def get_time_avg(all_times):
     """Takes duration of almost every review and returns average.
     Skips the oldest reviews if there is enough.
-    
+
     Durations are in seconds.
     """
 
@@ -289,20 +289,20 @@ def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
     foretime_max = 330
     foretime_red_perc = foretime_green_perc = 0
 
-    if (days > (365 * 3) and time_num < 10):
+    if days > (365 * 3) and time_num < 10:
         foretime_green_perc = 50
     elif days > (365 * 40):
         fmt_time = '<small>%s</small>' % fmt_time
     elif time_num > foretime_base:
         foretime_red_perc = percFromBaseToExtreme(
-                time_num, foretime_base, foretime_max)
+            time_num, foretime_base, foretime_max)
 
 
     if time_num >= 120:
         fmt_time = '<i>%s</i>' % fmt_time
 
     fmt_time = u'<span style="color: rgb({0}%, {1}%, 0%)">{2}</span>'.format(
-            foretime_red_perc, foretime_green_perc, fmt_time)
+        foretime_red_perc, foretime_green_perc, fmt_time)
 
     return fmt_time
 
@@ -326,34 +326,34 @@ def getForecastText(self, c, forecast_days):
 
 def getForecast(self, c, forecast_days):
     # Returns forecast for card c in seconds.
-        if not (c.ivl > 0):
-            return  # in-learning cards not supported
+    if not (c.ivl > 0):
+        return  # in-learning cards not supported
 
-        all_times = self.col.db.list(
-            "select time/1000 from revlog where cid = :id",
-            id=c.id)
+    all_times = self.col.db.list(
+        "select time/1000 from revlog where cid = :id",
+        id=c.id)
 
-        cnt = len(all_times)
+    cnt = len(all_times)
 
-        if cnt:
+    if cnt:
 
-            time_avg = get_time_avg(all_times)
-
-
-            def repstime_this(days):
-                return repstime(days=days, time_avg=time_avg, ivl=c.ivl,
-                                factor=c.factor)
+        time_avg = get_time_avg(all_times)
 
 
-            if c.queue in (2,3):
-                if c.due > self.col.sched.today:
-                    forecast_days -= (c.due - self.col.sched.today)
+        def repstime_this(days):
+            return repstime(days=days, time_avg=time_avg, ivl=c.ivl,
+                            factor=c.factor)
 
-            forecast = repstime_this(forecast_days)
-            if forecast:
-                return forecast
-            else:
-                return None
+
+        if c.queue in (2, 3):
+            if c.due > self.col.sched.today:
+                forecast_days -= (c.due - self.col.sched.today)
+
+        forecast = repstime_this(forecast_days)
+        if forecast:
+            return forecast
+        else:
+            return None
 
 
 
