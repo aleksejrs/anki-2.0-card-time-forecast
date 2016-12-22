@@ -16,6 +16,21 @@ from anki.utils import fmtTimeSpan
 # 1300 is the minimum ease, the card may actually be harder.
 lowest_ease_possible = 1300
 
+# For the forecast of how many Anki days of your life the reviews will take.
+# Used for more realistic forecasting in minutes
+# Include only the time you can dedicate to the kind of reviews this add-on
+# measures (not Incremental reading).
+avg_total_review_mins_per_day = 31.5
+
+# All time. Gives bigger numbers, but some of the time will always be used for
+# sleep anyway.
+#hours_in_day = 24.0
+# Only the awake time. Unstable though.
+# "Study screen time forecast" will use that to show the amount in days, but
+# the amount of days will be the same as with 24.0 (everything is based on
+# the ratio of avg_total_review_mins_per_day to hours_in_day).
+hours_in_day = 15.0
+
 
 def percFromBaseToExtreme(value, base, extreme):
     """Shows, in %, where value is on the way from base to extreme.
@@ -306,6 +321,8 @@ def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
 
     return fmt_time
 
+def secOfLifePerReviewSec(avg_total_review_mins_per_day, hours_in_day):
+    return hours_in_day * 60 /  avg_total_review_mins_per_day
 
 def repsForIvlFactorAndMaximum(ivl, factor, days):
     # I guess this is currently just a proxy because I wanted to adapt it
@@ -319,6 +336,11 @@ def getForecastText(self, c, forecast_days):
     # Returns text forecast for card c in seconds, with "s" added.
     f = getForecast(self, c, forecast_days)
     if f:
+        minOfLife = f * secOfLifePerReviewSec(avg_total_review_mins_per_day, hours_in_day) / 60.0
+        minOfLifeStr = "{0:.1f}m".format(minOfLife)
+#       Minutes based on the ratio of review time to whole day time.
+#        return "{}".format(minOfLifeStr)
+        # Pure review seconds (default).
         return (str(int(f)) + 's')
     else:
         return ''
