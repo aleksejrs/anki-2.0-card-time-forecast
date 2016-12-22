@@ -285,7 +285,7 @@ def repstime(days, time_avg, ivl, factor):
     if days <= 0:   # forecast requested for before the due date
         return 0
     else:
-        reps = repsForIvlFactorAndMaximum(ivl=ivl, factor=factor, days=days)
+        reps = reps_for_total_ivl(ivl=ivl, factor=factor, max_total_ivl=days)
         return reps * time_avg
 
 
@@ -323,12 +323,6 @@ def repstime_s(days, factor, time_avg, ivl, cardStatsObject):
 
 def secOfLifePerReviewSec(avg_total_review_mins_per_day, hours_in_day):
     return hours_in_day * 60 /  avg_total_review_mins_per_day
-
-def repsForIvlFactorAndMaximum(ivl, factor, days):
-    # I guess this is currently just a proxy because I wanted to adapt it
-    # for cards due in the future.  Then it will subtract the "due in"
-    # time from the "days".  Note that getForecast does it now.
-    return reps_for_total_ivl(ivl=ivl, factor=factor, max_total_ivl=days)
 
 # The following 2 functions are used in other add-ons only.
 
