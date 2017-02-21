@@ -19,7 +19,7 @@ In the card-specific statistics table (which I use with Damien's "Card Info Duri
 * Old repository location (Gitorious): <a href="https://gitorious.org/anki-2-0-card-time-forecast-and-ease-warner">gitorious.org/anki-2-0-card-time-forecast-and-ease-warner</a>;
 * another Ease-related add-on: <a href="https://ankiweb.net/shared/info/674713543">Suggest Starting Ease for the deck's options group</a>.
 * another forecast add-on (depends on this one): <a href="https://ankiweb.net/shared/info/3246851123">Study screen time forecast</a>.
-* You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://github.com/aleksejrs/anki-aleksejs-advanced-browser-repo">I have an add-on for that</a>, which is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>. I've renamed the files, so it works alongside current version of AB.
+* You may be wondering if there is a way to show a forecast for each card in the browser.  <a href="https://github.com/aleksejrs/anki-aleksejs-advanced-browser-repo">I have an add-on for that</a>, which is a module for an old alpha version of <a href="https://github.com/hssm/advanced-browser">Advanced Browser</a>.  However, I never completely understood how it works. I've renamed the files, so it worked alongside current version of AB, but one day it seemed to have started making the configuration of columns in the Browser reset.
 
 <b>Ideas</b>
 
@@ -29,6 +29,7 @@ I am not a programmer, so these are ideas, not plans.
 ** When coloring, consider total time of the reviews.
 *** Alone, that will confuse cards whose learning has been restarted (after editing, or acquiring the knowledge necessary to memorize them).
 * Make the configurability of the medium ease more prominent (currently it's the Starting ease).
+* Convert review seconds into minutes of life, considering the time spent on reviews per day the whole day (24 hours, or only the wake-up time, or whatever you can compare best).
 
 <b>Feedback?</b>
 If you want me to notice your feedback soon, please use either:
