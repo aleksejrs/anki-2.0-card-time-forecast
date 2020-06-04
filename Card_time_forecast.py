@@ -3,7 +3,7 @@
 # Copyright: Aleksej
 # Based on anki.stats from Anki 2.0.15 (the report function by Damien Elmes
 # <anki@ichi2.net>).
-# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+# License: GNU Affero General Public License, version 3 only; http://www.gnu.org/licenses/agpl.html
 
 import time
 
